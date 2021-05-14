@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
 
 namespace CircusTrein
 {
     public class Train
     {
-        public List<Wagon> Wagons { get; set; } = new List<Wagon>();
-
+        public List<Animal> WagonWithAnimals { get; set; }
+        public static List<Wagon> Wagons { get; set; } = new List<Wagon>();
         public List<Wagon> GetAllWagons() => Wagons;
+
+        public static int WagonCount = Wagons.Count;
 
         bool CheckScenarios_And_CheckIfWagonFull(Animal animal)
         {
@@ -22,7 +25,7 @@ namespace CircusTrein
 
         public void PutAnimalsInWagons(List<Animal> animalCollection)
         {
-            foreach (Animal animal in animalCollection)
+            foreach (Animal animal in GenerateAnimal.AnimalCollection)
             {
                 if (!CheckScenarios_And_CheckIfWagonFull(animal))
                 {

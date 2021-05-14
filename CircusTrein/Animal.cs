@@ -1,58 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CircusTrein
 {
-    public enum Size
-    {
-        Small = 1,
-        Medium = 3,
-        Big = 5
-    }
-
-    public enum Diet
-    {
-        Herbivore = 0,
-        Carnivore = 1
-    }
-
     public class Animal
     {
-        public Size Size { get; private set; }
-        public Diet Diet { get; private set; }
+        public Enums.Size Size { get; private set; }
+        public Enums.Diet Diet { get; private set; }
+        public List<Animal> AnimalCollection { get;  set; }
 
-        public Animal(Size size, Diet diet)
+        public Animal(Enums.Size size, Enums.Diet diet)
         {
             Size = size;
             Diet = diet;
         }
-
-        public static List<Animal> animalCollection = new List<Animal>
-        {
-            new Animal(Size.Small, Diet.Carnivore),
-            new Animal(Size.Medium, Diet.Carnivore),
-            new Animal(Size.Big, Diet.Carnivore),
-            new Animal(Size.Small, Diet.Carnivore),
-            new Animal(Size.Medium, Diet.Carnivore),
-            new Animal(Size.Big, Diet.Carnivore),
-            new Animal(Size.Small, Diet.Herbivore),
-            new Animal(Size.Medium, Diet.Herbivore),
-            new Animal(Size.Big, Diet.Herbivore),
-            new Animal(Size.Small, Diet.Herbivore),
-            new Animal(Size.Medium, Diet.Herbivore),
-            new Animal(Size.Big, Diet.Herbivore),
-            new Animal(Size.Small, Diet.Carnivore),
-            new Animal(Size.Medium, Diet.Carnivore),
-            new Animal(Size.Big, Diet.Carnivore),
-            new Animal(Size.Small, Diet.Carnivore),
-            new Animal(Size.Medium, Diet.Carnivore),
-            new Animal(Size.Big, Diet.Carnivore),
-            new Animal(Size.Small, Diet.Herbivore),
-            new Animal(Size.Medium, Diet.Herbivore),
-            new Animal(Size.Big, Diet.Herbivore),
-            new Animal(Size.Small, Diet.Herbivore),
-            new Animal(Size.Medium, Diet.Herbivore),
-            new Animal(Size.Big, Diet.Herbivore)
-        };
 
         public override string ToString()
         {

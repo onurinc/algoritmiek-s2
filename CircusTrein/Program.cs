@@ -9,7 +9,7 @@ namespace Circustrein
         static void Main()
         {
             Train train = new Train();
-            train.PutAnimalsInWagons(Animal.animalCollection);
+            train.PutAnimalsInWagons(GenerateAnimal.AnimalCollection);
             foreach (Wagon wagon in train.GetAllWagons())
             {
                 Console.Write("\n\nWagon Size: " + wagon.CurrentSize + "\nAnimals: ");

@@ -5,19 +5,35 @@ namespace CircusTrein
 {
     public class Wagon
     {
-        public List<Animal> WagonWithAnimals { get; set; } = new List<Animal>();
+        public int WagonSize { get; private set; } = 10;
+        public List<Animal> AnimalInWagon { get; set; } = new List<Animal>();
+        public int CurrentSize => AnimalInWagon.Sum(a => (int)a.Size);
+        public List<Animal> GetAnimalsInWagon() => AnimalInWagon;
 
-        public int Size { get; private set; } = 10;
 
-        public int CurrentSize => WagonWithAnimals.Sum(a => (int)a.Size);
 
-        public List<Animal> GetAnimalsInWagon() => WagonWithAnimals;
-
-        bool CheckIfCarnivoreIsBiggerThan_Or_EqualToOtherAnimal(Animal AnimalToAdd)
+        public bool zzCheckAllScenarios(Animal animalToAdd)
         {
-            foreach (Animal animal in WagonWithAnimals)
+            foreach (Animal animal in AnimalInWagon)
             {
-                if (AnimalToAdd.Diet == Diet.Carnivore && AnimalToAdd.Size >= animal.Size)
+                if (!(animalToAdd.Diet == Enums.Diet.Carnivore && animal.Diet == Enums.Diet.Carnivore) &&
+                    !(animalToAdd.Diet == Enums.Diet.Herbivore && animal.Diet == Enums.Diet.Carnivore && animalToAdd.Size <= animal.Size) &&
+                    !(animalToAdd.Diet == Enums.Diet.Carnivore && animalToAdd.Size >= animal.Size) &&
+                    ((int)animalToAdd.Size + CurrentSize <= WagonSize))
+                {
+                    AnimalInWagon.Add(animalToAdd);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        
+        public bool CheckIfCarnivoreIsBiggerThan_Or_EqualToOtherAnimal(Animal animalToAdd)
+        {
+            foreach (Animal animal in AnimalInWagon)
+            {
+                if (animalToAdd.Diet == Enums.Diet.Carnivore && animalToAdd.Size >= animal.Size)
                 {
                     return false;
                 }
@@ -25,11 +41,11 @@ namespace CircusTrein
             return true;
         }
 
-        bool CheckIfHerbivoreIsSmallerThan_Or_EqualToCarnivore(Animal animalToCompare)
+        public bool CheckIfHerbivoreIsSmallerThan_Or_EqualToCarnivore(Animal animalToAdd)
         {
-            foreach (Animal animal in WagonWithAnimals)
+            foreach (Animal animal in AnimalInWagon)
             {
-                if (animalToCompare.Diet == Diet.Herbivore && animal.Diet == Diet.Carnivore && animalToCompare.Size <= animal.Size)
+                if (animalToAdd.Diet == Enums.Diet.Herbivore && animal.Diet == Enums.Diet.Carnivore && animalToAdd.Size <= animal.Size)
                 {
                     return false;
                 }
@@ -37,23 +53,36 @@ namespace CircusTrein
             return true;
         }
 
-        bool CheckIfThereIsTwoCarnivores(Animal animalToCompare)
+        public bool CheckIfThereIsTwoCarnivoresV2(Animal animalToAdd)
         {
-            foreach (Animal animal in WagonWithAnimals)
+            if (AnimalInWagon.Any(a => a.Diet == Enums.Diet.Carnivore && animalToAdd.Diet == Enums.Diet.Carnivore))
             {
-                if (animalToCompare.Diet == Diet.Carnivore && animal.Diet == Diet.Carnivore)
+                return false;
+            }
+            return true;
+        }
+
+        public bool CheckIfThereIsTwoCarnivores(Animal animalToAdd)
+        {
+            foreach (Animal animal in AnimalInWagon)
+            {
+                if (animalToAdd.Diet == Enums.Diet.Carnivore && animal.Diet == Enums.Diet.Carnivore)
                 {
                     return false;
                 }
             }
             return true;
         }
+
 
         public bool CheckAllScenarios(Animal animalToAdd)
         {
-            if (CheckIfCarnivoreIsBiggerThan_Or_EqualToOtherAnimal(animalToAdd) && CheckIfHerbivoreIsSmallerThan_Or_EqualToCarnivore(animalToAdd) && (int)animalToAdd.Size + CurrentSize <= Size && CheckIfThereIsTwoCarnivores(animalToAdd))
+            if (CheckIfCarnivoreIsBiggerThan_Or_EqualToOtherAnimal(animalToAdd) && 
+                CheckIfHerbivoreIsSmallerThan_Or_EqualToCarnivore(animalToAdd) &&
+                CheckIfThereIsTwoCarnivores(animalToAdd) &&
+                (int)animalToAdd.Size + CurrentSize <= WagonSize)
             {
-                WagonWithAnimals.Add(animalToAdd);
+                AnimalInWagon.Add(animalToAdd);
                 return true;
             }
             return false;
